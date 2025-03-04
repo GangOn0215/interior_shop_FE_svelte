@@ -3,7 +3,7 @@
   //  ! Legacy mode
   // let count = 0;
 
-  // ! runes ( Svelte 5) svelte
+  // ! runes ( Svelte 5 ) svelte
   let count = $state(0);
 </script>
 
