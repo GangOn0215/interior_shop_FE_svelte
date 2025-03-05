@@ -7,23 +7,18 @@
   */
   import { beforeUpdate, afterUpdate, onMount } from 'svelte';
   import Icon from '@iconify/svelte';
-
-  // 할 일 목록 더미데이터
-  let todos = [
-    { id: 1, title: '연애', todo: '여자친구 생일 선물 사기', complete: true },
-    { id: 2, title: '운동', todo: '헬스장에서 1시간 운동하기', complete: false },
-    { id: 3, title: '공부', todo: 'Todos - addTodo 완성하기', complete: false },
-    { id: 4, title: '청소', todo: '방 청소 및 빨래 정리하기', complete: false },
-    { id: 5, title: '미팅', todo: '프로젝트 팀 화상 회의 참석', complete: false },
-    { id: 6, title: '독서', todo: '새로 산 소설책 30페이지 읽기', complete: false },
-    { id: 7, title: '요리', todo: '저녁 식사 준비하기', complete: false },
-    { id: 8, title: '연락', todo: '부모님께 전화하기', complete: false },
-    { id: 9, title: '계획', todo: '다음 주 일정 계획 세우기', complete: false },
-    { id: 10, title: '취미', todo: '기타 연습 30분 하기', complete: false }
-  ];
+  import { localStore } from '../../stores/localStore.js';
 
   let newTodo = '';
   let lastSequence = 0;
+  
+  const todos = localStore('todos', []);
+  let todoValue = [];
+
+  const unsubscribe = todos.subscribe(value => {
+    todoValue = value;
+    lastSequence = todoValue.length > 0 ? todoValue[todoValue.length - 1].id : 0;
+  });
 
   beforeUpdate(() => {
     console.log('beforeUpdate');
@@ -32,7 +27,8 @@
   onMount(() => {
     console.log('onMount');
 
-    lastSequence = todos.length > 0 ? todos[todos.length - 1].id : 0;
+    // 로컬 스토리지에서 할 일 목록 불러오기
+    const todos = JSON.parse(localStorage.getItem('todos'));
   });
 
   afterUpdate(() => {
@@ -52,7 +48,9 @@
     const todo = newTodo;
     const complete = false;
 
-    todos = [...todos, { id, title, todo, complete }];
+    // todos = [...todos, { id, title, todo, complete }];
+
+    todos.update(items => [...items, {id, title, todo, complete}])
 
     // 추가 후 입력창 초기화
     newTodo = '';
@@ -65,21 +63,32 @@
 
   // 할 일 삭제 함수
   function deleteTodo(id) {
-    const target = todos.find(todo => todo.id === id);
-
-    todos = todos.filter(todo => todo.id !== id);
+    // todos = todos.filter(todo => todo.id !== id);
+    todos.update(items=>items.filter(item => item.id !== id));
   }
 
   // 할 일 완료 상태 토글 함수
   function toggleComplete(id) {
     // 1. 검색
-    const target = todos.find(todo => todo.id === id);
+    // const target = todos.find(todo => todo.id === id);
+
+    // 2. 찾은 할 일의 완료 상태 변경
+    // target.complete = !target.complete;
+
+    // 3. 변경된 할 일 목록으로 업데이트
+    // todos = todos.map(todo => todo.id === id ? target : todo);
+
+    // 1. 검색
+    const target = todoValue.find(todo => todo.id === id);
 
     // 2. 찾은 할 일의 완료 상태 변경
     target.complete = !target.complete;
-
+    
     // 3. 변경된 할 일 목록으로 업데이트
-    todos = todos.map(todo => todo.id === id ? target : todo);
+    todos.update(items => items.map (
+        item => item.id === id ? target : item 
+      )
+    );
 
     // 2,3 번의 단축 코드는 다음과 같음
     /*
@@ -123,14 +132,15 @@
       <Icon icon="memory:checkbox-cross" width="28" height="28" />
     </button>
   </div>
+
   <!-- TODO: todo list  -->
   <div class="todo-ul">
-    {#if todos.length === 0}
+    {#if todoValue.length === 0}
       <div class='todo-li'>        
           할 일이 없습니다.
       </div>
     {:else}
-      {#each todos as todo}
+      {#each todoValue as todo}
         <div class="todo-li">
           <div class="todo-wrap" key={todo.id}>
             <div class="todo-item">
