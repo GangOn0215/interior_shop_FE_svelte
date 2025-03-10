@@ -7,8 +7,18 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			'@': path.resolve(__dirname, './src'),
+			'@api': path.resolve(__dirname, './src/api'),
 			'@stores': path.resolve(__dirname, './src/stores'),
 			'@lib': path.resolve(__dirname, './src/lib'),
+			'@scss': path.resolve(__dirname, './src/scss'),
 		},
 	},
+	server: {
+		proxy: {
+			'/api/v1': {
+				target: 'http://localhost:8080',
+				changeOrigin: true
+			}
+		}
+	}
 });

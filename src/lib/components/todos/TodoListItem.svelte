@@ -5,7 +5,7 @@
 <div class="todo-wrap" key={todo.id}>
   <div class="todo-item">
       <span class="todo-title">[ {todo.title} ]</span>
-      <span class="todo-content">{todo.todo}</span> 
+      <span class="todo-content">{todo.content}</span> 
   </div>
 </div>
 

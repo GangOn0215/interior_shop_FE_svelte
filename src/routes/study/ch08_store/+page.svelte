@@ -10,5 +10,6 @@
 <button onclick={decrement}>Sub Counter</button>
 <button onclick={reset}>Reset</button>
 
-<style>
+<style lang="scss">
+  
 </style>

@@ -3,6 +3,7 @@
   import TodoListItem from './TodoListItem.svelte';
   import TodoListButton from './TodoListButton.svelte';
 
+  export let todos;
   export let todoValue;
   export let toggleComplete;
   export let deleteTodo;
@@ -18,8 +19,8 @@
       <TodoListItem todo={todo} />
       <TodoListButton 
         todo={todo} 
-        toggleComplete={toggleComplete} 
-        deleteTodo={deleteTodo}
+        toggleComplete={() => toggleComplete(todo.id, todos, todoValue )} 
+        deleteTodo={() => deleteTodo(todo.id, todos)}
       />
     </div>
   {/each}

@@ -1,0 +1,28 @@
+.todo-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.todo-header {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  
+  h1 {
+    font-size: 2rem;
+    color: #333;
+  }
+}
+
+.todo-body {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.todo-ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}

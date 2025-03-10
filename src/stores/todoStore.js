@@ -1,7 +1,8 @@
 // localStore.js
 import { writable } from 'svelte/store';
+import { findAll } from '@api/todo/todoApi';
 
-export const localStore = (key, initial) => {
+export const todoStore = (key, initial) => {
   // 브라우저 환경인지 확인 (SSR 대응)
   const browser = typeof window !== 'undefined';
   
