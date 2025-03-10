@@ -28,24 +28,14 @@
   
   onMount(() => {
     console.log('onMount');
-
-    // 로컬 스토리지에서 할 일 목록 불러오기
-    const todos = JSON.parse(localStorage.getItem('todos'));
   });
 
   afterUpdate(() => {
     console.log('afterUpdate');
   });
 
-  // Create Todo
-  function createTodo() {
-    if(newTodo === undefined || newTodo === '') {
-      alert('할 일을 입력해주세요.');
-
       return;
     }
-
-    const title = 'TODO';
     const id = ++lastSequence;
     const todo = newTodo;
     const complete = false;
