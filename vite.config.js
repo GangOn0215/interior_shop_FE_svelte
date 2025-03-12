@@ -4,6 +4,7 @@ import path from 'path'; // 여기에 path 모듈 임포트 추가
 
 export default defineConfig({
 	plugins: [sveltekit()],
+	presets: ['@babel/preset-env'],
 	resolve: {
 		alias: {
 			'@': path.resolve(__dirname, './src'),

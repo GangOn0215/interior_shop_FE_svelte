@@ -2,8 +2,6 @@ import { json } from '@sveltejs/kit';
 
 export async function fetchData(url) {
   try {
-    console.log("URL >>> " + url);
-    
     const response = await fetch(url); // ?
 
     if (!response.ok) {
