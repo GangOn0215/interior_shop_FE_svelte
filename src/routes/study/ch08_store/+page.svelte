@@ -1,5 +1,5 @@
 <script>
-  import { increment, decrement, reset } from "@stores/simple.js";
+  import { increment, decrement, reset } from "$lib/stores/simple.js";
   import Counter from "./Counter.svelte";
 
 </script>

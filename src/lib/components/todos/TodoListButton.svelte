@@ -8,8 +8,10 @@
 <div class="todo-manage">
   <button on:click={() => toggleComplete(todo.id)}>
     {#if todo.complete}
+      <!-- 완료 -->
       <Icon icon="mdi:checkbox-marked-outline" width="28" height="28" />
     {:else}
+      <!-- 미완료 -->
       <Icon icon="mdi:checkbox-blank-outline" width="28" height="28" />
     {/if}
   </button>

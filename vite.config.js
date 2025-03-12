@@ -20,5 +20,13 @@ export default defineConfig({
 				changeOrigin: true
 			}
 		}
-	}
+	},
+	test: {
+    environment: 'happy-dom',
+    include: ['src/**/*.{test,spec}.{js,ts}'],
+    globals: true,
+    deps: {
+      inline: ['msw']
+    }
+  }
 });

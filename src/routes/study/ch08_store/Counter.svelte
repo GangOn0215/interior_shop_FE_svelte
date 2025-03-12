@@ -1,5 +1,5 @@
 <script>
-  import { count } from '@stores/simple.js';
+  import { count } from '$lib/stores/simple.js';
 
 
 </script>

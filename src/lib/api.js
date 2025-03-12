@@ -2,12 +2,16 @@ import { json } from '@sveltejs/kit';
 
 export async function fetchData(url) {
   try {
-    const response = await fetch(url);
+    console.log("URL >>> " + url);
+    
+    const response = await fetch(url); // ?
 
     if (!response.ok) {
-      return new Response(JSON.stringify({ error: 'API 요청 실패' }), {
+      const responseFail = new Response(JSON.stringify({ error: 'API 요청 실패' }), {
         status: response.status
       });
+
+      return responseFail;
     }
 
     const data = await response.json();
@@ -26,10 +30,10 @@ export async function postData(url, data) {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data) 
     });
 
-    if (!response.ok) {
+    if (!response.ok) { 
       return new Response(JSON.stringify({ error: 'API 요청 실패' }), {
         status: response.status
       });
@@ -43,3 +47,17 @@ export async function postData(url, data) {
     });
   }
 }
+
+// {{
+//   import { SELECT_TODO } from '../api/apiURL.js';
+
+//     // const API_URL = import.meta.env.VITE_API_PATH; //?
+//     const API_URL = process.env.VITE_API_PATH;
+    
+//     // const API_URL = 'http://localhost:8080/api/v1';
+
+//   // fetchData(`${API_URL}${SELECT_TODO.path}${SELECT_TODO.task}`).then((res) => { 
+//   //   console.log(res);
+//   // });
+  
+// }}
