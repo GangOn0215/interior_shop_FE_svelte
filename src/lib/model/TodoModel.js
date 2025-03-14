@@ -7,7 +7,7 @@ export class Todo {
     user_id, 
     title, 
     content, 
-    complete = false,
+    complete = 'N',
     created_id,
     created_at,
     latest_id,
@@ -17,7 +17,7 @@ export class Todo {
     this.user_id = user_id;       // not null
     this.title = title;           // not null
     this.content = content;       // not null
-    this.complete = complete;     // not null default : 'Y'
+    this.complete = complete || 'N';     // not null default : 'Y'
     this.created_at = created_at || formatDate(new Date());
     this.created_id = created_id;
     this.latest_at = latest_at || null;
@@ -25,7 +25,12 @@ export class Todo {
   }
 
   toggle() {
-    this.complete = !this.complete;
+    this.complete = this.complete === 'Y' ? 'N' : 'Y';
+  }
+
+  setLatest() {
+    this.latest_id = this.user_id;
+    this.latest_at = formatDate(new Date());
   }
 
   update(newData) {

@@ -13,7 +13,6 @@
   function addTodo() {
     createTodo();
   }
-
 </script>
 
 <input class="todo-input" bind:value={newTodo} on:keypress={handleKeypress} placeholder="할 일을 입력해주세요." />
@@ -27,7 +26,7 @@
 </button>
 
 <style lang="scss">
-  input {
+  input.todo-input {
     width: 70%;
     height: 2.5rem;
     padding: 0 0.5rem;

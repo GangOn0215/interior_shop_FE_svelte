@@ -6,7 +6,7 @@ import { formatDate } from "$lib/utils/common.js";
 
 // Quokka 전용
 import { fetchData, postData } from "../../api.js";
-import { API_URL, INSERT_TODO, SELECT_TODO } from "../../api/apiURL.js";
+import { API_URL, INSERT_TODO, UPDATE_TODO, SELECT_TODO, DELETE_TODO } from "../../api/config/apiURL.js";
 import { formatDate } from "../../utils/common.js";
 import { Todo } from "../../model/TodoModel.js";
 
@@ -39,7 +39,7 @@ export async function findAll() {
 }
 
 {{
-  // findAll();
+  findAll();
 }}
 
 // 조회
@@ -81,8 +81,27 @@ export async function insertTodo(todo) {
 // 업데이트
 export async function updateTodo(todo) {
   try {
-    
+    const postURL = `${API_URL}${UPDATE_TODO.path}${UPDATE_TODO.task}`; //?
+    const response = await postData(postURL, todo); // ?
+    const result = await response.json(); // ?
+
   } catch(e) {
     
   }
 }
+
+export async function serviceDeleteTodo(id) {
+  try {
+    const postURL = `${API_URL}${DELETE_TODO.path}${DELETE_TODO.task}`; //?
+    const response = await postData(postURL, {id: id}); // ?
+    const result = await findAll(); // ?
+
+    return result;
+  } catch(e) {
+
+  }
+}
+  
+{{
+  // serviceDeleteTodo({id: 835});
+}}

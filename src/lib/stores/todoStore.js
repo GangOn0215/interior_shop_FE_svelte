@@ -1,6 +1,4 @@
-// localStore.js
 import { writable } from 'svelte/store';
-// import { findAll } from '@api/todo/todoApi';
 import { findAll } from '$lib/service/todo/todo.js';
 
 export const todoStore = async (key, initial) => {
@@ -15,11 +13,8 @@ export const todoStore = async (key, initial) => {
   
   // 스토어 값 변경 시 로컬 스토리지에 저장
   if (browser) {
-    // 값이 바뀜
     store.subscribe(value => {
-      // 만약 데이터를 업데이트 된 후, 기존에 있는 모든 storedValue를 지우고, 새로운 데이터를 가져온다면?
       console.log(value);
-
     });
   }
   
