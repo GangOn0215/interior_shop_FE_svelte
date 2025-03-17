@@ -27,7 +27,7 @@ async function setPagenation(todoList, page = 1, setCurrentPage) {
   const startIndex = (currentPage - 1) * pageLimit;
   // 8. 끝 인덱스
   const endIndex = Math.min(startIndex + pageLimit - 1, totalCnt) + 1;
-
+  
   if (setCurrentPage) {
     setCurrentPage(currentPage);
   }

@@ -19,7 +19,7 @@
   // 데이터베이스 사용 유무
   const useDatabase = import.meta.env.VITE_USE_DATABASE;
 
-  let { todoValue } = data; 
+  let { todoValue } = data;
   let newTodo = '';
   let searchTerm = ''; // 검색어 변수 추가
   let lastSequence = 0;
@@ -60,39 +60,54 @@
 
     // Fetch todos and set current page
     await findAll(1, (page) => currentPage.set(page));
+
+    currentPage.subscribe(async (page) => {
+      console.log('currentPage', page);
+
+      const newTodoList = await findAll(page);
+
+      await todos.set(newTodoList);
+    });
   });
 
   afterUpdate(() => {
     console.log('afterUpdate');
+
   });
+  
+  
 
   async function handleCreateTodo() {
     await createTodo(newTodo, todos, lastSequence);
     newTodo = '';
   }
+
+  
 </script>
 
 <div class="todo-container">
   <div class="todo-wrapper">
     <div class="todo-header">
       <h1>Todo List</h1>
+      <TodoInput
+        bind:newTodo
+        createTodo={handleCreateTodo}
+      />
     </div>
   
     <div class="todo-body">
-        <TodoInput 
-          bind:newTodo
-          createTodo={handleCreateTodo}
+      <!-- Todo List -->
+      <div class="todo-ul">
+        <TodoList 
+          todos={todos}
+          todoValue={todoValue} 
+          toggleComplete={toggleComplete} 
+          deleteTodo={deleteTodo}
         />
+      </div>
     </div>
 
-    <div class="todo-ul">
-      <TodoList 
-        todos={todos}
-        todoValue={todoValue} 
-        toggleComplete={toggleComplete} 
-        deleteTodo={deleteTodo}
-      />
-    </div>
+
     <div class="todo-pagination">
       <!-- 이전  -->
       {#each Array.from({ length: endPageRange }, (_, i) => i + 1) as num}
