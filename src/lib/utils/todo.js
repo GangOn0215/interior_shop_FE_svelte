@@ -3,7 +3,7 @@ import { map } from 'list';
 import { Todo } from '../model/TodoModel.js';
 import { findAll, insertTodo, updateTodo, serviceDeleteTodo } from '../service/todo/todo.js';
 
-export function createTodo(todoText, todos, lastSequence) {
+export async function createTodo(todoText, todos, lastSequence) {
   if(todoText === undefined || todoText === '') {
     alert('할 일을 입력해주세요.');
     return;
@@ -18,7 +18,9 @@ export function createTodo(todoText, todos, lastSequence) {
   const todoItem = new Todo({id, title, content, user_id, created_id});
 
   // 1. 데이터베이스에 todo 데이터 추가
-  insertTodo(todoItem);
+  const result = await insertTodo(todoItem);
+
+  todoItem.id = result.id;
 
   // 2. store에 데이터 추가 및 마지막 항목 제거
   todos.update(items => {
@@ -33,7 +35,6 @@ export async function deleteTodo(id, todos) {
   const newList = await serviceDeleteTodo(id);
 
   // const updatedTodos = todos.update(items => items.filter(item => item.id !== id));
-
   // return updatedTodos;
 
   todos.set(newList);

@@ -10,13 +10,14 @@ export const todoStore = async (key, initial) => {
 
   // writable 스토어 생성
   const store = writable(storedValue !== null ? storedValue : initial);
-  
+
   // 스토어 값 변경 시 로컬 스토리지에 저장
   if (browser) {
     store.subscribe(value => {
-      console.log(value);
     });
   }
   
   return store;
 };
+
+export const currentPage = writable(1);

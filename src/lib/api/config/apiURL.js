@@ -16,6 +16,10 @@ export const SELECT_TODO = {
   task: '00001'
 }
 
+export const SELECT_TODO_LAST_SEQUENCE = {
+  path: '/todo/select/lastSequence',
+}
+
 // Update Todo
 export const UPDATE_TODO = {
   path: '/todo/update',

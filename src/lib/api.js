@@ -12,6 +12,8 @@ export async function fetchData(url) {
       return responseFail;
     }
 
+    console.log(">>> Get Api Success");
+
     const data = await response.json();
     return json(data);
   } catch (error) {
@@ -36,6 +38,8 @@ export async function postData(url, data) {
         status: response.status
       });
     }
+
+    console.log(">>> Post Api Success");
 
     const responseData = await response.json();
     return json(responseData);
