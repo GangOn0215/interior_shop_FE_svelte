@@ -1,10 +1,14 @@
+import { postData } from '$lib/api.js';
+
 export async function load({ fetch }) {
   try {
-    const response = await fetch('/api/v1/todo/select00001');
-    
-    if (!response.ok) {
-      throw new Error('API 요청 실패');
-    }
+    const response = await fetch('/api/v1/todo/select00001', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({pageNum: 1})
+    });
     
     const data = await response.json();
     

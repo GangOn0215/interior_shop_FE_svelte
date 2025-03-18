@@ -7,7 +7,7 @@ export const todoStore = async (key, initial) => {
   
   // todos 데이터를 가져온다는 가정하에
   const storedValue = browser ? await findAll() : null;
-
+  
   // writable 스토어 생성
   const store = writable(storedValue !== null ? storedValue : initial);
 

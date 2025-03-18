@@ -32,7 +32,7 @@ export async function postData(url, data) {
       },
       body: JSON.stringify(data) 
     });
-
+    
     if (!response.ok) { 
       return new Response(JSON.stringify({ error: 'API 요청 실패' }), {
         status: response.status

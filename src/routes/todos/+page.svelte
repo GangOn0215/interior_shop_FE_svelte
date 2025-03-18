@@ -54,7 +54,7 @@
     
     todos.subscribe(value => {
       todoValue = value;
-
+      
       lastSequence = todoValue.length > 0 ? (todoValue[0].id + 1) : 0;
     });
 

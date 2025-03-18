@@ -5,11 +5,15 @@ import { formatDate } from "$lib/utils/common.js";
 */
 
 // Quokka 전용
-import { fetchData, postData } from "../../api.js";
+import { fetchData, postData } from "../../api.js"; 
 import { API_URL, INSERT_TODO, UPDATE_TODO, SELECT_TODO, DELETE_TODO, SELECT_TODO_LAST_SEQUENCE } from "../../api/config/apiURL.js";
 import { formatDate } from "../../utils/common.js";
 import { Todo } from "../../model/TodoModel.js";
 
+// const useDB = import.meta.env.VITE_USE_DATABASE;
+const useDB = true;
+
+// FE 만 쓴다면.
 async function setPagenation(todoList, page = 1, setCurrentPage) {
   // 1. 총 갯수
   const totalCnt = todoList.length;
@@ -39,17 +43,22 @@ async function setPagenation(todoList, page = 1, setCurrentPage) {
 
 // 조회
 export async function findAll(page = 1, setCurrentPage) {
+
   try {
     const getURL = `${API_URL}${SELECT_TODO.path}${SELECT_TODO.task}`; // ?
 
-    const response = await fetchData(getURL); // ?
+    // const response = await fetchData(getURL); // ?
+    const response = await postData(getURL, {pageNum: page}); // ?
 
     if(response.status === 200) {
       const result = await response.json();
-      let todoList = result.res;
+      let todoList = result.res.list;
 
       // config 처리해서 pagination 같이 처리하기.
-      todoList = await setPagenation(todoList, page, setCurrentPage);
+
+      if(!useDB) {
+        todoList = await setPagenation(todoList, page, setCurrentPage);
+      }
 
       // 1. created_at 날짜 형식 변경
       // 2. 받은 데이터 Todo 객체로 변환
@@ -70,7 +79,7 @@ export async function findAll(page = 1, setCurrentPage) {
 }
 
 {{
-  const todoList = await findAll();
+  // const todoList = await findAll();
 }}
 
 // 조회
