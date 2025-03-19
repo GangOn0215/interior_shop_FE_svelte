@@ -34,9 +34,6 @@ export async function createTodo(todoText, todos, lastSequence) {
 export async function deleteTodo(id, todos) {
   const newList = await serviceDeleteTodo(id);
 
-  // const updatedTodos = todos.update(items => items.filter(item => item.id !== id));
-  // return updatedTodos;
-
   todos.set(newList);
 }
 

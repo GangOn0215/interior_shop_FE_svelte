@@ -43,7 +43,6 @@ async function setPagenation(todoList, page = 1, setCurrentPage) {
 
 // 조회
 export async function findAll(page = 1, setCurrentPage) {
-
   try {
     const getURL = `${API_URL}${SELECT_TODO.path}${SELECT_TODO.task}`; // ?
 
@@ -52,10 +51,11 @@ export async function findAll(page = 1, setCurrentPage) {
 
     if(response.status === 200) {
       const result = await response.json();
-      let todoList = result.res.list;
+
+      const todoList = result.res.list;
+      const pageInfo = result.res.pageInfo;
 
       // config 처리해서 pagination 같이 처리하기.
-
       if(!useDB) {
         todoList = await setPagenation(todoList, page, setCurrentPage);
       }
@@ -68,13 +68,13 @@ export async function findAll(page = 1, setCurrentPage) {
         array[index] = new Todo(element);
       });
 
-      return todoList;
+      return { newTodoList: todoList, pageInfo };
     } else {
       console.error("Error >>> ", response);
     }
     
   } catch(e) {
-    
+    console.error(e);
   }
 }
 

@@ -6,10 +6,10 @@ export const todoStore = async (key, initial) => {
   const browser = typeof window !== 'undefined';
   
   // todos 데이터를 가져온다는 가정하에
-  const storedValue = browser ? await findAll() : null;
-  
+  const todoOBJ = await findAll();
+
   // writable 스토어 생성
-  const store = writable(storedValue !== null ? storedValue : initial);
+  const store = writable(todoOBJ.newTodoList !== null ? todoOBJ.newTodoList : initial);
 
   // 스토어 값 변경 시 로컬 스토리지에 저장
   if (browser) {
@@ -21,3 +21,4 @@ export const todoStore = async (key, initial) => {
 };
 
 export const currentPage = writable(1);
+export const pageInfo = writable({});

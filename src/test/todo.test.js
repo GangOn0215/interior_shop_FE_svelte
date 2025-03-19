@@ -45,6 +45,8 @@ describe('투두 API 통합 테스트', () => {
 
     console.log("Result >>> ", result);
 
-    const todoList = result.res; //?
+    const todoList = result.res.list; //?
+    
+    const lastPage = todoList[0].LstPageCnt; // ?
   });
 });

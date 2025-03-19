@@ -5,7 +5,7 @@
    * [250305] 할 일 목록 추가 기능 구현
   */
   import { beforeUpdate, afterUpdate, onMount } from 'svelte';
-  import { todoStore, currentPage } from '$lib/stores/todoStore.js';
+  import { todoStore, currentPage, pageInfo } from '$lib/stores/todoStore.js';
   import Icon from '@iconify/svelte';
   import TodoInput from '$lib/components/todos/TodoInput.svelte';
   import TodoList from '$lib/components/todos/TodoList.svelte';
@@ -25,12 +25,12 @@
   let lastSequence = 0;
   
   let startPageRange = 1;
-  let endPageRange = 5;
+  let endPageRange = 10;
 
   let todos;
 
-   // 날짜 상태 변수
-   let date = '';
+  // 날짜 상태 변수
+  let date = '';
   
   // 날짜 포맷팅 함수
   function formatDate(dateStr) {
@@ -59,30 +59,30 @@
     });
 
     // Fetch todos and set current page
-    await findAll(1, (page) => currentPage.set(page));
+    // await findAll(1, (page) => currentPage.set(page));
+    await findAll(1);
 
     currentPage.subscribe(async (page) => {
-      console.log('currentPage', page);
+      const todoObj = await findAll(page);
 
-      const newTodoList = await findAll(page);
+      await todos.set(todoObj.newTodoList);
+      await pageInfo.set(todoObj.pageInfo);
+    });
 
-      await todos.set(newTodoList);
+    pageInfo.subscribe((pageInfo) => {
+      console.log('pageInfo', pageInfo);
     });
   });
 
   afterUpdate(() => {
     console.log('afterUpdate');
-
   });
-  
-  
 
   async function handleCreateTodo() {
     await createTodo(newTodo, todos, lastSequence);
+
     newTodo = '';
   }
-
-  
 </script>
 
 <div class="todo-container">
@@ -110,14 +110,16 @@
 
     <div class="todo-pagination">
       <!-- 이전  -->
-      {#each Array.from({ length: endPageRange }, (_, i) => i + 1) as num}
-        <button 
-          class:active={num === currentPage}
-          on:click={() => currentPage.set(num)}
-        >
-          {num}
-        </button>
-      {/each}
+      {#if pageInfo }
+        {#each Array.from({ length: endPageRange }, (_, i) => i + 1) as num}
+          <button 
+            class:active={num === currentPage}
+            on:click={() => currentPage.set(num)}
+          >
+            {num}
+          </button>
+        {/each}
+      {/if}
     </div>
 
     <!--
