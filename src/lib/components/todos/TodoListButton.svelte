@@ -17,6 +17,7 @@
   </button>
 
   <!-- 삭제 -->
+  <!-- TODO: 삭제 할 때, 모든 리스트가 사라지는 버그 발생 -->
   <button on:click={() => deleteTodo(todo.id)}>
     <Icon icon="mdi:trash-can-outline" width="28" height="28" />
   </button>

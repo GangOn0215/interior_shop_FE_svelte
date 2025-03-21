@@ -9,12 +9,14 @@ import { fetchData, postData } from "../../api.js";
 import { API_URL, INSERT_TODO, UPDATE_TODO, SELECT_TODO, DELETE_TODO, SELECT_TODO_LAST_SEQUENCE } from "../../api/config/apiURL.js";
 import { formatDate } from "../../utils/common.js";
 import { Todo } from "../../model/TodoModel.js";
+import { currentPage } from "../../stores/todoStore.js";
+
 
 // const useDB = import.meta.env.VITE_USE_DATABASE;
 const useDB = true;
 
 // FE 만 쓴다면.
-async function setPagenation(todoList, page = 1, setCurrentPage) {
+async function setPagenation(todoList, page = 1) {
   // 1. 총 갯수
   const totalCnt = todoList.length;
   // 2. 페이지당 보여줄 갯수
@@ -42,7 +44,11 @@ async function setPagenation(todoList, page = 1, setCurrentPage) {
 }
 
 // 조회
-export async function findAll(page = 1, setCurrentPage) {
+export async function findAll(page = 1) {
+  // currentPage.subscribe(value => {
+  //   page = value;
+  // });
+
   try {
     const getURL = `${API_URL}${SELECT_TODO.path}${SELECT_TODO.task}`; // ?
 
@@ -54,6 +60,8 @@ export async function findAll(page = 1, setCurrentPage) {
 
       const todoList = result.res.list;
       const pageInfo = result.res.pageInfo;
+
+      // pageInfoStore.set(pageInfo);
 
       // config 처리해서 pagination 같이 처리하기.
       if(!useDB) {
@@ -136,11 +144,25 @@ export async function updateTodo(todo) {
 }
 
 export async function serviceDeleteTodo(id) {
+  
   try {
+
+    /**
+     * pagination 처리
+     */
+    let page = 1;
+  
+    /**
+     * 이렇게 해서 page 를 넘겨줘야 delete 후에 갑자기 1페이지로 넘어가지 않는다.
+     */
+    currentPage.subscribe(value => {
+      page = value;
+    });
+
     const postURL = `${API_URL}${DELETE_TODO.path}${DELETE_TODO.task}`; //?
     const response = await postData(postURL, { id: id }); // ?
     if (response.status === 200) {
-      const result = await findAll(); // ?
+      const result = await findAll(page); // ?
       return result;
     } else {
       console.error("Error >>> ", response);

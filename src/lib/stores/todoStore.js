@@ -21,4 +21,6 @@ export const todoStore = async (key, initial) => {
 };
 
 export const currentPage = writable(1);
-export const pageInfo = writable({});
+export const pageInfo = writable({
+  currentPageNum: 1,
+});

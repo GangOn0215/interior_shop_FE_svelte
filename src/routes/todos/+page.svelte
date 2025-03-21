@@ -60,7 +60,7 @@
 
     // Fetch todos and set current page
     // await findAll(1, (page) => currentPage.set(page));
-    await findAll(1);
+    await findAll();
 
     currentPage.subscribe(async (page) => {
       const todoObj = await findAll(page);
@@ -68,6 +68,7 @@
       await todos.set(todoObj.newTodoList);
       await pageInfo.set(todoObj.pageInfo);
     });
+    
 
     pageInfo.subscribe((pageInfo) => {
       console.log('pageInfo', pageInfo);

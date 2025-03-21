@@ -1,8 +1,19 @@
 // import { Todo } from '$lib/model/TodoModel.js';
-import { map } from 'list';
+import { map, update } from 'list';
 import { Todo } from '../model/TodoModel.js';
 import { findAll, insertTodo, updateTodo, serviceDeleteTodo } from '../service/todo/todo.js';
 
+// TODO: Pagination 상태에서 추가 했을 때, 그 페이지 자체에서 그대로 추가만 되는 버그 발생
+// * 해결 * //
+
+/**
+ * 
+ * @param { Stirng } todoText 
+ * @param { } todos 
+ * @param { Int } lastSequence 
+ * 
+ * @returns 
+ */
 export async function createTodo(todoText, todos, lastSequence) {
   if(todoText === undefined || todoText === '') {
     alert('할 일을 입력해주세요.');
@@ -22,19 +33,34 @@ export async function createTodo(todoText, todos, lastSequence) {
 
   todoItem.id = result.id;
 
+  const findAllList = await findAll();
+
   // 2. store에 데이터 추가 및 마지막 항목 제거
   todos.update(items => {
-    const updatedItems = [todoItem, ...items];
+    // let result = null;
 
-    updatedItems.pop();
-    return updatedItems;
+    // if(findAllList.pageInfo.currentPageNum === 1) {
+    //   const updatedItems = [todoItem, ...items];
+  
+    //   updatedItems.pop();
+
+    //   result = updatedItems;
+    //   console.log(1);
+    // } else {
+    //   result = findAllList.newTodoList;
+
+    //   console.log(2);
+    // }
+
+    return findAllList.newTodoList;
+
   });
 }
 
 export async function deleteTodo(id, todos) {
   const newList = await serviceDeleteTodo(id);
 
-  todos.set(newList);
+  todos.set(newList.newTodoList);
 }
 
 export function toggleComplete(id, todos, todoValue) {
