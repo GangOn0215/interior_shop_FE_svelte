@@ -53,7 +53,7 @@ export async function findAll(page = 1) {
     const getURL = `${API_URL}${SELECT_TODO.path}${SELECT_TODO.task}`; // ?
 
     // const response = await fetchData(getURL); // ?
-    const response = await postData(getURL, {pageNum: page}); // ?
+    const response = await postData(getURL, {currentPageNum: page}); // ?
 
     if(response.status === 200) {
       const result = await response.json();
