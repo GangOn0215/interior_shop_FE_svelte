@@ -1,6 +1,7 @@
 <script>
   import Icon from '@iconify/svelte';
 
+  export let newTitle = '';
   export let newTodo = '';
   export let createTodo;
 
@@ -16,7 +17,10 @@
 </script>
 
 <div class="todo-input-container">
-  <input class="todo-input" bind:value={newTodo} on:keypress={handleKeypress} placeholder="할 일을 입력해주세요." />
+  <div class="todo-input-wrapper">
+    <input type="text" class="common-input todo-input-title" bind:value={newTitle} placeholder="타이틀" />
+    <input class="common-input todo-input" bind:value={newTodo} on:keypress={handleKeypress} placeholder="할 일을 입력해주세요." />
+  </div>
 
   <button on:click={addTodo}>
     <Icon icon="mdi:plus-box-outline" width="28" height="28" />
@@ -31,14 +35,28 @@
   .todo-input-container {
     display: flex;
     justify-content: center;
-    
-    .todo-input {
+
+    .todo-input-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       width: 70%;
+    }
+
+    .common-input {
       height: 2.5rem;
       padding: 0 0.5rem;
       border: 1px solid #ccc;
       border-radius: 0.25rem;
       font-size: 1rem;
+    }
+
+    .todo-input {
+      width: 70%;
+    }
+
+    .todo-input-title {
+      width: 20%;
     }
 
     button {

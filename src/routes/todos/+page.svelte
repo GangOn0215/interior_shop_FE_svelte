@@ -20,6 +20,7 @@
   const useDatabase = import.meta.env.VITE_USE_DATABASE;
 
   let { todoValue } = data;
+  let newTitle = '';
   let newTodo = '';
   let searchTerm = ''; // 검색어 변수 추가
   let lastSequence = 0;
@@ -68,7 +69,6 @@
       await todos.set(todoObj.newTodoList);
       await pageInfo.set(todoObj.pageInfo);
     });
-    
 
     pageInfo.subscribe((pageInfo) => {
       console.log('pageInfo', pageInfo);
@@ -80,8 +80,9 @@
   });
 
   async function handleCreateTodo() {
-    await createTodo(newTodo, todos, lastSequence);
+    await createTodo(newTitle, newTodo, todos, lastSequence);
 
+    newTitle = '';
     newTodo = '';
   }
 </script>
@@ -91,6 +92,7 @@
     <div class="todo-header">
       <h1>Todo List</h1>
       <TodoInput
+        bind:newTitle
         bind:newTodo
         createTodo={handleCreateTodo}
       />

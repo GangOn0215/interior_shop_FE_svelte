@@ -14,14 +14,19 @@ import { findAll, insertTodo, updateTodo, serviceDeleteTodo } from '../service/t
  * 
  * @returns 
  */
-export async function createTodo(todoText, todos, lastSequence) {
+export async function createTodo(todoTitle, todoText, todos, lastSequence) {
+  if(todoTitle === undefined || todoTitle === '') {
+    alert('타이틀을 입력 해주세요.');
+    return;
+  }
+
   if(todoText === undefined || todoText === '') {
-    alert('할 일을 입력해주세요.');
+    alert('할 일을 입력 해주세요.');
     return;
   }
 
   const id = lastSequence;
-  const title = 'Todo';
+  const title = todoTitle;
   const content = todoText;
   const user_id = 1;
   const created_id = 1;
