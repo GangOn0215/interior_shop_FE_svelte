@@ -26,7 +26,7 @@
   let lastSequence = 0;
   
   let startPageRange = 1;
-  let endPageRange = 10;
+  let maxBlock = 0;
 
   let todos;
 
@@ -72,6 +72,8 @@
 
     pageInfo.subscribe((pageInfo) => {
       console.log('pageInfo', pageInfo);
+
+      maxBlock = pageInfo.maxBlock
     });
   });
 
@@ -114,7 +116,7 @@
     <div class="todo-pagination">
       <!-- 이전  -->
       {#if pageInfo }
-        {#each Array.from({ length: endPageRange }, (_, i) => i + 1) as num}
+        {#each Array.from({ length: maxBlock }, (_, i) => i + 1) as num}
           <button 
             class:active={num === currentPage}
             on:click={() => currentPage.set(num)}
