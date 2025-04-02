@@ -13,6 +13,7 @@
   import { findAll } from '$lib/service/todo/todo.js';
   import { fetchTodos } from '$lib/api/service/todoApi.js';
   import '$lib/styles/scss/todo.scss';
+  import TodoPagination from '$lib/components/todos/TodoPagination.svelte';
   
   export let data;
 
@@ -112,111 +113,12 @@
       </div>
     </div>
 
+    <TodoPagination
+      pageInfo={pageInfo}
+      maxBlock={maxBlock}
+      currentPage={currentPage}
+    />
 
-    <div class="todo-pagination">
-      <!-- 이전  -->
-      {#if pageInfo }
-        {#each Array.from({ length: maxBlock }, (_, i) => i + 1) as num}
-          <button 
-            class:active={num === currentPage}
-            on:click={() => currentPage.set(num)}
-          >
-            {num}
-          </button>
-        {/each}
-      {/if}
-    </div>
-
-    <!--
-    <div class="todo-footer">
-      <div class="todo-search">
-        <input type="text" placeholder="검색어를 입력하세요" bind:value={searchTerm} />
-        <button>검색</button>
-      </div>
-    </div>
-    -->
 
   </div>
 </div>
-
-<style lang="scss">
-  .todo-pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 1.5rem 0;
-    gap: 0.5rem;
-
-    button {
-      padding: 0.5rem 0.75rem;
-      background-color: #f8f9fa;
-      border: 1px solid #dee2e6;
-      border-radius: 0.25rem;
-      font-size: 0.875rem;
-      color: #495057;
-      cursor: pointer;
-      transition: all 0.2s ease;
-
-      &:hover {
-        background-color: #e9ecef;
-        color: #212529;
-      }
-
-      &.active {
-        background-color: #4263eb;
-        color: white;
-        border-color: #4263eb;
-      }
-
-      &:focus {
-        outline: none;
-        box-shadow: 0 0 0 0.2rem rgba(66, 99, 235, 0.25);
-      }
-    }
-  }
-
-  .todo-footer {
-    margin-top: 1rem;
-    padding: 1rem 0;
-    border-top: 1px solid #e9ecef;
-
-    .todo-search {
-      display: flex;
-      gap: 0.5rem;
-      
-      input {
-        flex: 1;
-        padding: 0.5rem 0.75rem;
-        border: 1px solid #ced4da;
-        border-radius: 0.25rem;
-        font-size: 0.875rem;
-        
-        &:focus {
-          outline: none;
-          border-color: #4263eb;
-          box-shadow: 0 0 0 0.2rem rgba(66, 99, 235, 0.25);
-        }
-      }
-      
-      button {
-        padding: 0.5rem 1rem;
-        background-color: #4263eb;
-        color: white;
-        border: none;
-        border-radius: 0.25rem;
-        font-size: 0.875rem;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-        
-        &:hover {
-          background-color: #3b5bdb;
-        }
-        
-        &:focus {
-          outline: none;
-          box-shadow: 0 0 0 0.2rem rgba(66, 99, 235, 0.25);
-        }
-      }
-    }
-  }
-</style>
