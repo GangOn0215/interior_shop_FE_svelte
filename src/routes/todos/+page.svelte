@@ -9,7 +9,7 @@
   import Icon from '@iconify/svelte';
   import TodoInput from '$lib/components/todos/TodoInput.svelte';
   import TodoList from '$lib/components/todos/TodoList.svelte';
-  import { createTodo, deleteTodo, toggleComplete } from '$lib/utils/todo.js';
+  import { createTodo, editTodo, deleteTodo, toggleComplete } from '$lib/utils/todo.js';
   import { findAll } from '$lib/service/todo/todo.js';
   import { fetchTodos } from '$lib/api/service/todoApi.js';
   import '$lib/styles/scss/todo.scss';
@@ -30,7 +30,12 @@
   let maxBlock = 0;
 
   let todos;
+  let selectedTodo = null;
   let isModalOpen = false;
+  let isTodoUpdate = false;
+
+  let updateTitle = '';
+  let updateContent = '';
 
   // 날짜 상태 변수
   let date = '';
@@ -108,6 +113,15 @@
 
     newTitle = '';
     newTodo = '';
+  }
+
+  async function handleUpdateTodo() {
+    selectedTodo.title = updateTitle;
+    selectedTodo.content = updateContent;
+
+    await editTodo(selectedTodo, todos);
+
+    isTodoUpdate = false;
   }
 </script>
 

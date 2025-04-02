@@ -42,23 +42,56 @@ export async function createTodo(todoTitle, todoText, todos, lastSequence) {
 
   // 2. store에 데이터 추가 및 마지막 항목 제거
   todos.update(items => {
-    // let result = null;
+    /*
+    let result = null;
 
-    // if(findAllList.pageInfo.currentPageNum === 1) {
-    //   const updatedItems = [todoItem, ...items];
-  
-    //   updatedItems.pop();
-
-    //   result = updatedItems;
-    //   console.log(1);
-    // } else {
-    //   result = findAllList.newTodoList;
-
-    //   console.log(2);
-    // }
+    if(findAllList.pageInfo.currentPageNum === 1) {
+      const updatedItems = [todoItem, ...items];
+      updatedItems.pop();
+      result = updatedItems;
+      console.log(1);
+    } else {
+      result = findAllList.newTodoList;
+      console.log(2);
+    }
+    */
 
     return findAllList.newTodoList;
+  });
+}
 
+export async function editTodo(todo, todos) {
+  if(todo.title === undefined || todo.title === '' ) {
+    alert('타이틀을 입력 해주세요.');
+    return;
+  }
+
+  if(todo.content === undefined || todo.content === '') {
+    alert('할 일을 입력 해주세요.');
+    return;
+  }
+
+  await updateTodo(todo);
+
+  const findAllList = await findAll();
+
+  // 2. store에 데이터 추가 및 마지막 항목 제거
+  todos.update(items => {
+    /*
+    let result = null;
+
+    if(findAllList.pageInfo.currentPageNum === 1) {
+      const updatedItems = [todoItem, ...items];
+      updatedItems.pop();
+      result = updatedItems;
+      console.log(1);
+    } else {
+      result = findAllList.newTodoList;
+      console.log(2);
+    }
+    */
+
+    return findAllList.newTodoList;
   });
 }
 
