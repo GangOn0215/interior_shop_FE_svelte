@@ -7,6 +7,7 @@
   export let todoValue;
   export let toggleComplete;
   export let deleteTodo;
+  export let triggerModal;
 </script>
 
 {#if todoValue.length === 0}
@@ -16,7 +17,10 @@
 {:else}
   {#each todoValue as todo}
     <div class="todo-li">
-      <TodoListItem todo={todo} />
+      <TodoListItem 
+        todo={todo} 
+        triggerModal={triggerModal}
+      />
       <TodoListButton 
         todo={todo} 
         toggleComplete={() => toggleComplete(todo.id, todos, todoValue )} 

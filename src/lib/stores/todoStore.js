@@ -24,3 +24,6 @@ export const currentPage = writable(1);
 export const pageInfo = writable({
   currentPageNum: 1,
 });
+
+// modal 컨트롤
+export const isModalOpenStore = writable(false);
