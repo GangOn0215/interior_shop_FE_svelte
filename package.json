@@ -4,8 +4,11 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
+		"pm2_start": "pm2 start server.js --name app",
+		"pm2_stop": "pm2 stop app",
+		"pm2_restart": "pm2 restart app",
 		"dev": "vite dev",
-		"build": "vite build",
+		"build": "vite build && pm2 start server.js --name 'app' && pm2 monit",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"test": "vitest run"
@@ -27,8 +30,15 @@
 	},
 	"dependencies": {
 		"@iconify/svelte": "^4.2.0",
+		"@sveltejs/adapter-node": "^5.2.12",
+		"cors": "^2.8.5",
 		"dotenv": "^16.4.7",
+		"http-proxy": "^1.18.1",
+		"http-proxy-middleware": "^3.0.5",
 		"list": "^2.0.19",
-		"msw": "^2.7.3"
+		"msw": "^2.7.3",
+		"nodemon": "^3.1.9",
+		"pm2": "^6.0.5",
+		"polka": "^0.5.2"
 	}
 }
