@@ -26,9 +26,9 @@
     <Icon icon="mdi:plus-box-outline" width="28" height="28" />
   </button>
   <!-- 비우기 -->
-  <button on:click={() => newTodo = ''}>
+  <!-- <button on:click={() => newTodo = ''}>
     <Icon icon="memory:checkbox-cross" width="28" height="28" />
-  </button>
+  </button> -->
 </div>
 
 <style lang="scss">

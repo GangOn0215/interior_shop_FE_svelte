@@ -25,6 +25,7 @@
         todo={todo} 
         toggleComplete={() => toggleComplete(todo.id, todos, todoValue )} 
         deleteTodo={() => deleteTodo(todo.id, todos)}
+        triggerModal={triggerModal}
       />
     </div>
   {/each}

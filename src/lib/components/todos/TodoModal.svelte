@@ -8,6 +8,10 @@
   export let updateContent;
   export let todos;
 
+  export let newTitle = '';
+  export let newTodo = '';
+  export let createTodo;
+
   let isModalOpen = false;
   let isTodoUpdate = false;
 
@@ -34,7 +38,17 @@
 
     isTodoUpdate = false;
   }
+
+  function onClickCopy() {
+    newTitle = updateTitle;
+    newTodo = updateContent;
+
+    createTodo();
+    toggleCloseModal();
+  }
 </script>
+
+<!-- 모달 창 외부 누르면 꺼지게 만들자. -->
 
 <!-- Modal -->
 {#if isModalOpen}
@@ -57,7 +71,13 @@
         <button class="cancel-button" on:click={toggleTodoUpdate}>취소</button>
       </div>
       {:else}
-        <button class="modal-action-modify" on:click={toggleTodoUpdate}>수정</button>
+        <div>
+          <button class="modal-action-modify" on:click={toggleTodoUpdate}>수정</button>
+        </div>
+        <!-- TODO : 복사 클릭하면 최상단에 추기 되게 만들자. -->
+        <div>
+          <button class="copy-button" on:click={onClickCopy}>복사</button>
+        </div>
       {/if}
     </div>
   </div>
@@ -66,149 +86,143 @@
 
 <style type="scss">
 .todo-modal-container {
-    position: fixed;
-    top: 0;
-    left: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+
+  .todo-modal {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 1rem;
     width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+    max-width: 480px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 
+    .todo-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
 
-    .todo-modal {
-      background: #fff;
-      padding: 1rem;
-      border-radius: 0.25rem;
-      width: 50%;
-      max-width: 500px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      h2 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #111;
+        margin: 0;
+      }
 
-      .todo-modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid #ccc;
-        padding-bottom: 0.5rem;
+      .close-button {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: #666;
+        cursor: pointer;
 
-        h2 {
-          margin: 0;
+        &:hover {
+          color: #111;
+        }
+      }
+    }
+
+    .todo-modal-body {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        font-size: 0.95rem;
+        color: #222;
+        box-sizing: border-box;
+
+        &:focus {
+          border-color: #000;
+          outline: none;
+          background-color: #fff;
         }
 
-        .close-button {
-          background: none;
-          border: none;
-          font-size: 1.5rem;
-          cursor: pointer;
+        &:disabled {
+          background-color: #f0f0f0;
+          color: #888;
         }
       }
 
-      .todo-modal-body {
-        margin: 1rem 0;
-
-        .modify-title, .modify-calendar {
-          width: 100%;
-          padding: 0.75rem;
-          margin-bottom: 1rem;
-          border: 1px solid #ccc;
-          border-radius: 0.5rem;
-          font-size: 1rem;
-          box-sizing: border-box;
-          background-color: #fff;
-          transition: border-color 0.3s ease;
-
-          &:focus {
-            border-color: #007bff;
-            outline: none;
-            background-color: #fff;
-          }
-
-          &:disabled {
-            background-color: #fff;
-          }
-        }
-
-        .modify-content {
-          width: 100%;
-          height: 150px;
-          padding: 0.75rem;
-          border: 1px solid #ccc;
-          border-radius: 0.5rem;
-          font-size: 1rem;
-          box-sizing: border-box;
-          background-color: #fff;
-          resize: none; /* 사용자가 크기를 조정하지 못하도록 설정 */
-          transition: border-color 0.3s ease;
-
-          &:focus {
-            border-color: #007bff;
-            outline: none;
-            background-color: #fff;
-          }
-
-          &:disabled {
-            background-color: #fff;
-          }
-        }
+      textarea {
+        height: 140px;
+        resize: none;
       }
+    }
 
-      .todo-modal-footer {
-        display: flex;
-        justify-content: space-between;
+    .todo-modal-footer {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
 
-        .todo-modify-button {
-            display: flex;
-            gap: 0.5rem;
+      button {
+        flex: 1;
+        padding: 0.3rem 0.75rem;
+        font-size: 0.95rem;
+        font-weight: 500;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.2s ease, transform 0.2s ease;
 
-            .save-button {
-              padding: 0.5rem 1rem;
-              background-color: #28a745; /* 녹색 */
-              color: #fff;
-              border: none;
-              border-radius: 0.25rem;
-              font-size: 1rem;
-              cursor: pointer;
-              transition: background-color 0.3s ease;
-
-              &:hover {
-                background-color: #218838; /* 더 진한 녹색 */
-              }
-            }
-
-            .cancel-button {
-              padding: 0.5rem 1rem;
-              background-color: #dc3545; /* 빨간색 */
-              color: #fff;
-              border: none;
-              border-radius: 0.25rem;
-              font-size: 1rem;
-              cursor: pointer;
-              transition: background-color 0.3s ease;
-
-              &:hover {
-                background-color: #c82333; /* 더 진한 빨간색 */
-              }
-            }
-        }
-
-        .modal-action-modify {
-          padding: 0.5rem 1rem;
-          background-color: #ffc107; /* 노란색 */
-          color: #212529;
-          border: none;
-          border-radius: 0.25rem;
-          font-size: 1rem;
-          cursor: pointer;
-          transition: background-color 0.3s ease;
+        &.modal-action-modify {
+          background: #000;
+          color: #fff;
 
           &:hover {
-            background-color: #e0a800; /* 더 진한 노란색 */
+            background: #333;
+            transform: translateY(-2px);
+          }
+
+          &:active {
+            transform: translateY(0);
           }
         }
 
+        &.copy-button {
+          background: #888;
+          color: #fff;
+
+          &:hover {
+            background: #666;
+          }
+        }
+
+        &.save-button {
+          background: #111;
+          color: #fff;
+
+          &:hover {
+            background: #333;
+          }
+        }
+
+        &.cancel-button {
+          background: #bbb;
+          color: #000;
+
+          &:hover {
+            background: #999;
+          }
+        }
       }
     }
   }
+}
 </style>

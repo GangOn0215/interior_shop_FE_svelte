@@ -77,20 +77,6 @@ export async function editTodo(todo, todos) {
 
   // 2. store에 데이터 추가 및 마지막 항목 제거
   todos.update(items => {
-    /*
-    let result = null;
-
-    if(findAllList.pageInfo.currentPageNum === 1) {
-      const updatedItems = [todoItem, ...items];
-      updatedItems.pop();
-      result = updatedItems;
-      console.log(1);
-    } else {
-      result = findAllList.newTodoList;
-      console.log(2);
-    }
-    */
-
     return findAllList.newTodoList;
   });
 }
@@ -120,4 +106,12 @@ export function toggleComplete(id, todos, todoValue) {
       currentTodos = value;
     })();
   }
+}
+
+export function getFullDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
 }

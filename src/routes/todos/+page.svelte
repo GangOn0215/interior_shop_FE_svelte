@@ -24,6 +24,7 @@
   let { todoValue } = data;
   let newTitle = '';
   let newTodo = '';
+  let newDate = '';
   let searchTerm = ''; // 검색어 변수 추가
   let lastSequence = 0;
   
@@ -110,9 +111,15 @@
   <div class="todo-wrapper">
     <div class="todo-header">
       <h1>Todo List</h1>
-      <div class="calendar-container">
-        <!-- 날짜 -->
-        <input type="date" name="" id="">
+      <!-- 검색을 만들자 -->
+
+      <div class="search-container">
+        <div class="calendar-container">
+          <!-- 날짜 -->
+          <input type="date" name="" id="date-picker" bind:value={date} />
+        </div>
+
+        <!-- <button on:click={}>검색</button> -->
       </div>
       <TodoInput
         bind:newTitle
@@ -143,8 +150,11 @@
     <TodoModal 
       todos={todos}
       selectedTodo={selectedTodo}
+      createTodo={handleCreateTodo}
       bind:updateTitle
       bind:updateContent
+      bind:newTitle
+      bind:newTodo
     />
 
     <!-- Modal 만들 예정 -->
@@ -152,9 +162,67 @@
     <!-- 계획 -->
     <!-- 1. todoListItem 클릭 시, TodoModal 창이 뜨게 한다.  -->
     <!-- 2. 기본적으로 Title과 Content가 보인다. -->
-    <!-- 3. 수정 버튼을 누르면 Title는 "input" Content는 "textarea" 로 변경한다 -->
-    <!-- 4.  -->
+    <!-- 3. 수정 버튼을 누르면 Title은 "input" Content는 "textarea" 로 변경한다 -->
+    <!-- 4. -->
 
 
   </div>
 </div>
+
+<style lang="scss">
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* 입력 필드와 버튼 사이 간격 */
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.calendar-container {
+  display: flex;
+  align-items: center;
+
+  #date-picker {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-family: inherit;
+    color: #333;
+    background-color: transparent; /* 배경 제거 */
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      border-color: #007bff;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+    }
+  }
+}
+
+.search-container button {
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px); /* 살짝 위로 올라가는 효과 */
+  }
+
+  &:active {
+    background-color: #004085;
+    transform: translateY(0); /* 클릭 시 원래 위치로 돌아감 */
+  }
+}
+</style>

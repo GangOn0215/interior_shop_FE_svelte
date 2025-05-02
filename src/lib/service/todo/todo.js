@@ -45,15 +45,20 @@ async function setPagenation(todoList, page = 1) {
 
 // 조회
 export async function findAll(page = 1) {
-  // currentPage.subscribe(value => {
-  //   page = value;
-  // });
-
   try {
     const getURL = `${API_URL}${SELECT_TODO.path}${SELECT_TODO.task}`; // ?
+    // const response = await postData(getURL, {currentPageNum: page, searchOBJ: {}}); // ?
 
-    // const response = await fetchData(getURL); // ?
-    const response = await postData(getURL, {currentPageNum: page}); // ?
+    const requestData = {
+      pagination: {
+        currentPageNum: page
+      }, 
+      searches: { 
+        a: 1
+      }
+    };
+
+    const response = await postData(getURL, requestData); // ?
 
     if(response.status === 200) {
       const result = await response.json();
@@ -61,15 +66,10 @@ export async function findAll(page = 1) {
       const todoList = result.res.list;
       const pageInfo = result.res.pageInfo;
 
-      // pageInfoStore.set(pageInfo);
-
-      // config 처리해서 pagination 같이 처리하기.
       if(!useDB) {
         todoList = await setPagenation(todoList, page, setCurrentPage);
       }
-
-      // 1. created_at 날짜 형식 변경
-      // 2. 받은 데이터 Todo 객체로 변환
+      
       todoList.forEach((element, index, array) => {
         element.created_at = formatDate(element.created_at);
 
